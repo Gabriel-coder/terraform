@@ -42,31 +42,31 @@ resource "aws_security_group" "workstation_sg" {
 
 
 module "ec2" {
-  source        = "../../modules/ec2"
-  ami_id        = "ami-08c40ec9ead489470" # Amazon Linux 2023 na us-east-1 (pode mudar)
-  instance_type = "t2.micro"
-  subnet_ids    = module.vpc.private_subnet_ids
-  key_name      = "terraform" # Deve ser uma key pair já criada na AWS
-  environment   = "dev"
-  security_group_ids  = [aws_security_group.workstation_sg.id]
+  source             = "../../modules/ec2"
+  ami_id             = "ami-08c40ec9ead489470" # Amazon Linux 2023 na us-east-1 (pode mudar)
+  instance_type      = "t2.micro"
+  subnet_ids         = module.vpc.private_subnet_ids
+  key_name           = "terraform" # Deve ser uma key pair já criada na AWS
+  environment        = "dev"
+  security_group_ids = [aws_security_group.workstation_sg.id]
 }
 
 module "alb" {
-  source        = "../../modules/alb"
-  environment   = "dev"
-  vpc_id        = module.vpc.vpc_id
-  subnet_ids    = module.vpc.public_subnet_ids
-  instance_ids  = module.ec2.instance_ids
+  source       = "../../modules/alb"
+  environment  = "dev"
+  vpc_id       = module.vpc.vpc_id
+  subnet_ids   = module.vpc.public_subnet_ids
+  instance_ids = module.ec2.instance_ids
 }
 
 module "workstation" {
-  source              = "../../modules/ec2"
-  ami_id              = "ami-08c40ec9ead489470"               # AMI Amazon Linux 2023
-  instance_type       = "t2.micro"
-  subnet_ids          = [module.vpc.public_subnet_ids[0]]     # subnet pública
-  key_name            = "terraform"                         # nome da sua Key Pair
-  environment         = "dev"
-  security_group_ids  = [aws_security_group.workstation_sg.id]
+  source             = "../../modules/ec2"
+  ami_id             = "ami-08c40ec9ead489470" # AMI Amazon Linux 2023
+  instance_type      = "t2.micro"
+  subnet_ids         = [module.vpc.public_subnet_ids[0]] # subnet pública
+  key_name           = "terraform"                       # nome da sua Key Pair
+  environment        = "dev"
+  security_group_ids = [aws_security_group.workstation_sg.id]
 }
 
 
