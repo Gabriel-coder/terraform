@@ -68,6 +68,7 @@ module "workstation" {
   environment        = "dev"
   security_group_ids = [aws_security_group.workstation_sg.id]
 }
+# Disparando recriação da infra pela interface
 
 
 
